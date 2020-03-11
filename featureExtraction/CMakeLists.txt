@@ -15,4 +15,3 @@ set(SRC_CPP ${PROJECT_SOURCE_DIR}/src/main.cpp
 
 add_executable(featureExtraction ${SRC_CPP})
 target_link_libraries(featureExtraction ${OpenCV_LIBS})
-
