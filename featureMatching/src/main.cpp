@@ -31,18 +31,21 @@ int main(int argc, char** argv) {
     feat_extra->runFeatureExtractDiv(kpts_2, desp_2);
 
     // feature matching 
-    // string matching_type = "FLANN";
-    string matching_type = "BF";
+    string matching_type = "FLANN";
+    // string matching_type = "BF";
     vector<DMatch> matches;
     Ptr<FeatureMatching> feat_matching = new FeatureMatching(matching_type, feat_type);
     feat_matching->RunFeatureMatching(desp_1, desp_2, matches);
-    // feat_matching->RunFlannMatching(desp_1, desp_2, matches);
-    // feat_matching->RunBFMatching(desp_1, desp_2, matches);
 
     // draw matching
     Mat out_img;
-    drawMatches(img_1, kpts_1, img_2, kpts_2, matches, out_img);
+    // for BF matching 
+    // drawMatches(img_1, kpts_1, img_2, kpts_2, matches, out_img);
+    // for FLANN matching 
+    drawMatches(img_2, kpts_2, img_1, kpts_1, matches, out_img);
     if (!out_img.empty()) {
+        string path = "./data/out_" + matching_type + "_" + feat_type + ".png";
+        imwrite(path, out_img);
         imshow("matching_image", out_img);
         waitKey(0);
     }
