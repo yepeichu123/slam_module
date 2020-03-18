@@ -20,10 +20,20 @@ eigen3/Eigen/Core
 eigen3/Eigen/Geometry
 -
 
+/home/ypc/xiaoc/code/slam_module/triangularPoints/src/TriangularPoints.cpp
+TriangularPoints.h
+/home/ypc/xiaoc/code/slam_module/triangularPoints/src/TriangularPoints.h
+opencv2/calib3d/calib3d.hpp
+-
+iostream
+-
+
 /home/ypc/xiaoc/code/slam_module/triangularPoints/src/main.cpp
 iostream
 -
 algorithm
+-
+memory
 -
 opencv2/core/core.hpp
 -

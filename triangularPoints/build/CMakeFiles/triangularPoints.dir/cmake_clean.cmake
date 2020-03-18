@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/triangularPoints.dir/src/TriangularPoints.cpp.o"
   "CMakeFiles/triangularPoints.dir/src/main.cpp.o"
   "../bin/triangularPoints.pdb"
   "../bin/triangularPoints"

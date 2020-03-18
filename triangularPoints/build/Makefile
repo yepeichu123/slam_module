@@ -123,6 +123,33 @@ triangularPoints/fast:
 	$(MAKE) -f CMakeFiles/triangularPoints.dir/build.make CMakeFiles/triangularPoints.dir/build
 .PHONY : triangularPoints/fast
 
+src/TriangularPoints.o: src/TriangularPoints.cpp.o
+
+.PHONY : src/TriangularPoints.o
+
+# target to build an object file
+src/TriangularPoints.cpp.o:
+	$(MAKE) -f CMakeFiles/triangularPoints.dir/build.make CMakeFiles/triangularPoints.dir/src/TriangularPoints.cpp.o
+.PHONY : src/TriangularPoints.cpp.o
+
+src/TriangularPoints.i: src/TriangularPoints.cpp.i
+
+.PHONY : src/TriangularPoints.i
+
+# target to preprocess a source file
+src/TriangularPoints.cpp.i:
+	$(MAKE) -f CMakeFiles/triangularPoints.dir/build.make CMakeFiles/triangularPoints.dir/src/TriangularPoints.cpp.i
+.PHONY : src/TriangularPoints.cpp.i
+
+src/TriangularPoints.s: src/TriangularPoints.cpp.s
+
+.PHONY : src/TriangularPoints.s
+
+# target to generate assembly for a file
+src/TriangularPoints.cpp.s:
+	$(MAKE) -f CMakeFiles/triangularPoints.dir/build.make CMakeFiles/triangularPoints.dir/src/TriangularPoints.cpp.s
+.PHONY : src/TriangularPoints.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... triangularPoints"
+	@echo "... src/TriangularPoints.o"
+	@echo "... src/TriangularPoints.i"
+	@echo "... src/TriangularPoints.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
