@@ -12,7 +12,7 @@ FeatureMatching::FeatureMatching(const std::string &matching_types, const std::s
     else {
         std::cout << "Using Brute force feature matching!" << std::endl;
         if (msFeatureTypes_ == "ORB") {
-            mpBFMatcher_ = new cv::BFMatcher(cv::NORM_HAMMING);
+            mpBFMatcher_ = new cv::BFMatcher(cv::NORM_HAMMING2);
         }
         else {
             mpBFMatcher_ = new cv::BFMatcher();
