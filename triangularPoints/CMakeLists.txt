@@ -10,7 +10,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories("/usr/local/include/eigen3")
 
-set(SRC_CPP ${PROJECT_SOURCE_DIR}/src/main.cpp)
+set(SRC_CPP ${PROJECT_SOURCE_DIR}/src/TriangularPoints.cpp
+            ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 add_executable(triangularPoints ${SRC_CPP})
 target_link_libraries(triangularPoints ${OpenCV_LIBS})
