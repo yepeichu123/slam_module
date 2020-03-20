@@ -31,25 +31,33 @@ bool EpipolarSearch::RunEpipolarSearch(const cv::Mat &ref_p, cv::Mat &cur_p,
     PixelToCam_(ref_p, ref_p3d);
 
     // project reference point to current frame 
-    float min_depth = 0.1,  max_depth = 100;
+    float min_idepth = 0,  max_idepth = 0.01;
     cv::Mat new_R, new_t;
     R.convertTo(new_R, CV_32F);
     t.convertTo(new_t, CV_32F);
-    cv::Mat min_cur_p = mmK_ * (min_depth * new_R * ref_p3d) + mmK_ * new_t;
-    cv::Mat max_cur_p = mmK_ * (max_depth * new_R * ref_p3d) + mmK_ * new_t;
+    cv::Mat pt = mmK_ * new_R * ref_p3d;
+    cv::Mat min_cur_p = pt + min_idepth * mmK_ * new_t;
+    cv::Mat max_cur_p = pt + max_idepth * mmK_ * new_t;
+    
+    float u_min = min_cur_p.at<float>(0) / min_cur_p.at<float>(2);
+    float v_min = min_cur_p.at<float>(1) / min_cur_p.at<float>(2);
+    float u_max = max_cur_p.at<float>(0) / max_cur_p.at<float>(2);
+    float v_max = max_cur_p.at<float>(1) / max_cur_p.at<float>(2);
 
-    // compute epipolar an direction 
+    // compute epipolar an direction   
     cv::Mat epipolar_line;
-    epipolar_line = max_cur_p - min_cur_p;
-    float epipolar_length = cv::norm(epipolar_line);
-    // cout << "epipolar_length = " << epipolar_length << endl;
-    cv::Mat epipolar_direction = epipolar_line;
-    cv::normalize(epipolar_line, epipolar_direction, 1, 0);
+    epipolar_line = (cv::Mat_<float>(2,1) << u_max - u_min, v_max - v_min);
+    float epipolar_length = sqrtf( (u_max-u_min)*(u_max-u_min) + (v_max-v_min)*(v_max- v_min) );
+    float d = 1 / epipolar_length;
+    float dx = u_max - u_min;
+    float dy = v_max - v_min;
 
     cv::Mat best_cur_p;
     float best_ncc = 0;
-    for (float l = 0; l <= epipolar_length; l+=1.414) {
-        cv::Mat px_cur = min_cur_p + l * epipolar_direction;
+    for (float l = 0; l <= epipolar_length; l+=0.1) {
+        cv::Mat px_cur;
+        px_cur = (cv::Mat_<float>(2,1) << u_min + l * d * dx, v_min + l * d * dy);
+        // cout << "px_cur = " << px_cur << endl;
         if (!isInliers_(px_cur)) {
             continue;
         }
@@ -60,9 +68,8 @@ bool EpipolarSearch::RunEpipolarSearch(const cv::Mat &ref_p, cv::Mat &cur_p,
             best_ncc = ncc;
         }
     }
-    // cout << "best_ncc = " << best_ncc << endl;
 
-    if (best_ncc < 0.85f) {
+    if (best_ncc < 0.95f) {
         return false;
     }
 
@@ -130,5 +137,10 @@ float EpipolarSearch::ComputeNCCScores_(const cv::Mat &ref_p, const cv::Mat &cur
     sum_down = sqrt(sum_down_1 * sum_down_2);
     float ncc = sum_up / sum_down;
 
-    return ncc;
+    if (ncc >= 0 && ncc <= 1) {
+        return ncc;
+    }
+    else {
+        return 0;
+    }
 }

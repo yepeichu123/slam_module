@@ -23,7 +23,9 @@ int main(int argc, char** argv) {
     Mat img_1 = imread(argv[1], IMREAD_GRAYSCALE);
     Mat img_2 = imread(argv[2], IMREAD_GRAYSCALE);
     Mat K;
-    K = (Mat_<float>(3, 3) << 718.856, 0, 607.1928, 0, 718.856, 185.2157, 0, 0, 1);
+    K = (Mat_<float>(3, 3) << 718.856, 0, 607.1928, 
+                              0, 718.856, 185.2157, 
+                              0, 0, 1);
 
     // compute relative pose 
     Mat R, t;
@@ -37,6 +39,9 @@ int main(int argc, char** argv) {
     vector<Point2f> cur_p, ref_p;
     cout << "Enter runEpipolarSearch!" << endl;
     
+    vector<KeyPoint> kpt1, kpt2;
+    vector<DMatch> matches;
+    int count = 0;
     for (int r = padding; r < nrow - padding; ++r) {
         for (int c = padding; c < ncol - padding; ++c) {
             cv::Mat ref_pixel, cur_pixel;
@@ -44,14 +49,38 @@ int main(int argc, char** argv) {
 
             bool flag = eps->RunEpipolarSearch(ref_pixel, cur_pixel, R, t);
             if (flag) {
+                KeyPoint p1, p2;
+                p1.pt = Point2f(c,r);
+                p2.pt = Point2f(cur_pixel.at<float>(0), cur_pixel.at<float>(1));
+                DMatch m;
+                m.queryIdx = count;
+                m.trainIdx = count;
+                ++count;
+                kpt1.push_back(p1);
+                kpt2.push_back(p2);
+                matches.push_back(m);
+
                 ref_p.push_back(Point2f(c,r));
                 cur_p.push_back(Point2f(
                     cur_pixel.at<float>(0), cur_pixel.at<float>(1))
                 );
+
+                
             }
         }
     }
     cout << "Finally, we found " << cur_p.size() << " matching points!" << endl;
+    cout << "P1 = " << kpt1.size() << ", P2 = " << kpt2.size() << endl;
+    cout << "matches = " << matches.size() << endl;
+
+
+    Mat out_img;
+    drawMatches(img_1, kpt1, img_2, kpt2, matches, out_img);
+    if (!out_img.empty())
+    {
+        imshow("matching_img", out_img);
+        waitKey(0);
+    }
 
     return 0;
 }
