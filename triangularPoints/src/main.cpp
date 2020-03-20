@@ -76,7 +76,6 @@ int main(int argc, char** argv) {
     // 6. triangular points
     // construct transformation matrix
     Mat T_1 = Mat::eye(4, 4, CV_32F);
-    T_1.col(3) = 0;
     Mat T_2 = Mat::eye(4, 4, CV_32F);
     Mat T_2_temp_1(3, 4, CV_32F);
     hconcat(R.rowRange(0,3).colRange(0,3), t.rowRange(0,3), T_2_temp_1);
@@ -86,11 +85,6 @@ int main(int argc, char** argv) {
     vconcat(T_2_temp_1, T_2_temp_2, T_2);
     cout << "T_1 = " << T_1 << "\n T_2 = " << T_2 << endl;
 
-    // construct project matrix
-    Mat P_1(3, 4, CV_32F), P_2(3, 4, CV_32F);
-    P_1 = P_K * T_1;
-    P_2 = P_K * T_2;
-    cout << "P_1 = " << P_1 << "\n P_2 = " << P_2 << endl;
     // triangulate points
     vector<Point3f> points3d;
     shared_ptr<TriangularPoints> tri_pt = make_shared<TriangularPoints>(K);
@@ -99,10 +93,7 @@ int main(int argc, char** argv) {
     // TYPE::VINS_MONO,
     // TYPE::CV,
     // TYPE::DEFAULT
-    // proj_pose is true means we input P = K * T
-    // proj_pose is false means we input P = T
-    tri_pt->runTriangularPoints(TYPE::ORBSLAM, false, T_1, T_2, kpts_1, kpts_2, good_matches, points3d);
-    // tri_pt->runTriangularPoints(TYPE::DEFAULT, true, P_1, P_2, kpts_1, kpts_2, good_matches, points3d);
+    tri_pt->runTriangularPoints(TYPE::DEFAULT, T_1, T_2, kpts_1, kpts_2, good_matches, points3d);
 
     // 7. normalize all 3d points 
     int count = 0;
@@ -127,7 +118,7 @@ int main(int argc, char** argv) {
         p.z /= scale;
         
         // 8. output depth
-        cout << "point " << i << ": normalized depth = " << p.z << endl;
+        cout << "point " << i << ": normalized point = " << p << endl;
         p3d_rescale.push_back(p);
     }
 
