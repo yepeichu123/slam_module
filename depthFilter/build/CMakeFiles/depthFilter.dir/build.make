@@ -57,9 +57,57 @@ include CMakeFiles/depthFilter.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/depthFilter.dir/flags.make
 
+CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o: CMakeFiles/depthFilter.dir/flags.make
+CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o: ../src/DepthFilter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ypc/xiaoc/code/slam_module/depthFilter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o -c /home/ypc/xiaoc/code/slam_module/depthFilter/src/DepthFilter.cpp
+
+CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ypc/xiaoc/code/slam_module/depthFilter/src/DepthFilter.cpp > CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.i
+
+CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ypc/xiaoc/code/slam_module/depthFilter/src/DepthFilter.cpp -o CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.s
+
+CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.requires:
+
+.PHONY : CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.requires
+
+CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.provides: CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.requires
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.provides.build
+.PHONY : CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.provides
+
+CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.provides.build: CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o
+
+
+CMakeFiles/depthFilter.dir/src/Points.cpp.o: CMakeFiles/depthFilter.dir/flags.make
+CMakeFiles/depthFilter.dir/src/Points.cpp.o: ../src/Points.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ypc/xiaoc/code/slam_module/depthFilter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/depthFilter.dir/src/Points.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/depthFilter.dir/src/Points.cpp.o -c /home/ypc/xiaoc/code/slam_module/depthFilter/src/Points.cpp
+
+CMakeFiles/depthFilter.dir/src/Points.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/depthFilter.dir/src/Points.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ypc/xiaoc/code/slam_module/depthFilter/src/Points.cpp > CMakeFiles/depthFilter.dir/src/Points.cpp.i
+
+CMakeFiles/depthFilter.dir/src/Points.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/depthFilter.dir/src/Points.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ypc/xiaoc/code/slam_module/depthFilter/src/Points.cpp -o CMakeFiles/depthFilter.dir/src/Points.cpp.s
+
+CMakeFiles/depthFilter.dir/src/Points.cpp.o.requires:
+
+.PHONY : CMakeFiles/depthFilter.dir/src/Points.cpp.o.requires
+
+CMakeFiles/depthFilter.dir/src/Points.cpp.o.provides: CMakeFiles/depthFilter.dir/src/Points.cpp.o.requires
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/Points.cpp.o.provides.build
+.PHONY : CMakeFiles/depthFilter.dir/src/Points.cpp.o.provides
+
+CMakeFiles/depthFilter.dir/src/Points.cpp.o.provides.build: CMakeFiles/depthFilter.dir/src/Points.cpp.o
+
+
 CMakeFiles/depthFilter.dir/src/main.cpp.o: CMakeFiles/depthFilter.dir/flags.make
 CMakeFiles/depthFilter.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ypc/xiaoc/code/slam_module/depthFilter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/depthFilter.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ypc/xiaoc/code/slam_module/depthFilter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/depthFilter.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/depthFilter.dir/src/main.cpp.o -c /home/ypc/xiaoc/code/slam_module/depthFilter/src/main.cpp
 
 CMakeFiles/depthFilter.dir/src/main.cpp.i: cmake_force
@@ -83,11 +131,15 @@ CMakeFiles/depthFilter.dir/src/main.cpp.o.provides.build: CMakeFiles/depthFilter
 
 # Object files for target depthFilter
 depthFilter_OBJECTS = \
+"CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o" \
+"CMakeFiles/depthFilter.dir/src/Points.cpp.o" \
 "CMakeFiles/depthFilter.dir/src/main.cpp.o"
 
 # External object files for target depthFilter
 depthFilter_EXTERNAL_OBJECTS =
 
+../bin/depthFilter: CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o
+../bin/depthFilter: CMakeFiles/depthFilter.dir/src/Points.cpp.o
 ../bin/depthFilter: CMakeFiles/depthFilter.dir/src/main.cpp.o
 ../bin/depthFilter: CMakeFiles/depthFilter.dir/build.make
 ../bin/depthFilter: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_stitching3.so.3.3.1
@@ -136,7 +188,7 @@ depthFilter_EXTERNAL_OBJECTS =
 ../bin/depthFilter: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_imgproc3.so.3.3.1
 ../bin/depthFilter: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_core3.so.3.3.1
 ../bin/depthFilter: CMakeFiles/depthFilter.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ypc/xiaoc/code/slam_module/depthFilter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/depthFilter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ypc/xiaoc/code/slam_module/depthFilter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/depthFilter"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/depthFilter.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -144,6 +196,8 @@ CMakeFiles/depthFilter.dir/build: ../bin/depthFilter
 
 .PHONY : CMakeFiles/depthFilter.dir/build
 
+CMakeFiles/depthFilter.dir/requires: CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o.requires
+CMakeFiles/depthFilter.dir/requires: CMakeFiles/depthFilter.dir/src/Points.cpp.o.requires
 CMakeFiles/depthFilter.dir/requires: CMakeFiles/depthFilter.dir/src/main.cpp.o.requires
 
 .PHONY : CMakeFiles/depthFilter.dir/requires

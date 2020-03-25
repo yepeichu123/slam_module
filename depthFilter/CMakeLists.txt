@@ -9,7 +9,9 @@ find_package(OpenCV 3.2 REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-set(SRC_CPP ${PROJECT_SOURCE_DIR}/src/main.cpp)
+set(SRC_CPP ${PROJECT_SOURCE_DIR}/src/DepthFilter.cpp
+            ${PROJECT_SOURCE_DIR}/src/Points.cpp
+            ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 add_executable(depthFilter ${SRC_CPP})
 target_link_libraries(depthFilter ${OpenCV_LIBS})

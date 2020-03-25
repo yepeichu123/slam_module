@@ -123,6 +123,60 @@ depthFilter/fast:
 	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/build
 .PHONY : depthFilter/fast
 
+src/DepthFilter.o: src/DepthFilter.cpp.o
+
+.PHONY : src/DepthFilter.o
+
+# target to build an object file
+src/DepthFilter.cpp.o:
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o
+.PHONY : src/DepthFilter.cpp.o
+
+src/DepthFilter.i: src/DepthFilter.cpp.i
+
+.PHONY : src/DepthFilter.i
+
+# target to preprocess a source file
+src/DepthFilter.cpp.i:
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.i
+.PHONY : src/DepthFilter.cpp.i
+
+src/DepthFilter.s: src/DepthFilter.cpp.s
+
+.PHONY : src/DepthFilter.s
+
+# target to generate assembly for a file
+src/DepthFilter.cpp.s:
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.s
+.PHONY : src/DepthFilter.cpp.s
+
+src/Points.o: src/Points.cpp.o
+
+.PHONY : src/Points.o
+
+# target to build an object file
+src/Points.cpp.o:
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/Points.cpp.o
+.PHONY : src/Points.cpp.o
+
+src/Points.i: src/Points.cpp.i
+
+.PHONY : src/Points.i
+
+# target to preprocess a source file
+src/Points.cpp.i:
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/Points.cpp.i
+.PHONY : src/Points.cpp.i
+
+src/Points.s: src/Points.cpp.s
+
+.PHONY : src/Points.s
+
+# target to generate assembly for a file
+src/Points.cpp.s:
+	$(MAKE) -f CMakeFiles/depthFilter.dir/build.make CMakeFiles/depthFilter.dir/src/Points.cpp.s
+.PHONY : src/Points.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +213,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... depthFilter"
+	@echo "... src/DepthFilter.o"
+	@echo "... src/DepthFilter.i"
+	@echo "... src/DepthFilter.s"
+	@echo "... src/Points.o"
+	@echo "... src/Points.i"
+	@echo "... src/Points.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/depthFilter.dir/src/DepthFilter.cpp.o"
+  "CMakeFiles/depthFilter.dir/src/Points.cpp.o"
   "CMakeFiles/depthFilter.dir/src/main.cpp.o"
   "../bin/depthFilter.pdb"
   "../bin/depthFilter"
