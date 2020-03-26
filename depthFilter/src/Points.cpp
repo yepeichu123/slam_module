@@ -3,7 +3,6 @@
 Points::Points(const int &id) {
     mnId_ = id;
     mDepth_ = 0;
-    mDepthNew_ = 0;
     mDepthUncertain_ = 0;
 }
 
@@ -12,8 +11,7 @@ Points::Points(const int &id, const cv::Mat &K, const cv::KeyPoint &kpts, const 
     mK_ = K.clone();
     mKpt_ = kpts;
     mDesp_ = desp.clone();
-    mDepth_ = 0;
-    mDepthNew_ = depth;
+    mDepth_ = depth;
     mDepthUncertain_ = 0;
 }
 
@@ -22,7 +20,7 @@ Points::~Points() {
 }
 
 void Points::SetPointDepth(const float &depth) {
-    mDepthNew_ = depth;
+    mDepth_ = depth;
 }
 
 void Points::SetKeyPoint(const cv::KeyPoint &kpts) {
@@ -46,6 +44,10 @@ void Points::UpdatePointDepth(const float &new_depth, const float &new_uncertain
     mDepthUncertain_ = new_uncertainty;
 }
 
+int Points::GetPointId() {
+    return mnId_;
+}
+
 cv::KeyPoint& Points::GetKeyPoint() {
     return mKpt_;
 }
@@ -55,10 +57,7 @@ cv::Mat& Points::GetDescriptor() {
 }
 
 float& Points::GetDepth() {
-    if (mDepth_ != 0) {
-        return mDepth_;
-    }
-    return mDepthNew_;
+    return mDepth_;
 }
 
 float Points::GetUncertainty() {

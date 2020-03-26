@@ -23,6 +23,8 @@ class Points{
 
         void UpdatePointDepth(const float &new_depth, const float &new_uncertainty);
 
+        int GetPointId();
+
         cv::KeyPoint& GetKeyPoint();
 
         cv::Mat& GetDescriptor();
@@ -42,8 +44,6 @@ class Points{
         cv::Mat mDesp_;
 
         float mDepth_;
-
-        float mDepthNew_;
 
         float mDepthUncertain_;
 };

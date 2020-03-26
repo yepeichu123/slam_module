@@ -5,6 +5,8 @@
 
 const double PI = 3.14159265358979323846264338328;
 
+using namespace std;
+
 DepthFilter::DepthFilter(const cv::Mat &K) {
     mK_ = K.clone();
 }
@@ -23,6 +25,7 @@ void DepthFilter::RunSingleDepthFilter(Points &p_1, Points &p_2) {
 
     float new_depth = (s_1*s_1*u_2 + s_2*s_2*u_1) / (s_1*s_1 + s_2*s_2);
     float new_depth_uncertain = ((s_1*s_1) * (s_2*s_2)) / (s_1*s_1 + s_2*s_2);
+    new_depth_uncertain = sqrt(new_depth_uncertain);
 
     p_1.UpdatePointDepth(new_depth, new_depth_uncertain);
 }
@@ -34,12 +37,10 @@ void DepthFilter::ComputeTriangulatePoint(const cv::Mat &R, const cv::Mat &t,
     cv::KeyPoint x2 = p_2.GetKeyPoint();
 
     // construct transformate matrix 
-    std::cout << R << "\n" << t << std::endl;
     cv::Mat T_1 = cv::Mat::eye(4, 4, CV_32F);
     cv::Mat T_2 = cv::Mat::eye(4, 4, CV_32F);
     R.rowRange(0,3).colRange(0,3).copyTo(T_2(cv::Rect(0,0,3,3)));   
     t.rowRange(0,3).copyTo(T_2(cv::Rect(3,0,1,3)));
-    std::cout << T_1 << "\n" << T_2 << std::endl;
 
     // compute project matrix 
     cv::Mat K;
