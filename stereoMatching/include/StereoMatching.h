@@ -10,7 +10,8 @@ class StereoMatching {
         ~StereoMatching();
     
         void RunStereoMatching(const cv::Mat &left_img, const cv::Mat &right_img,
-            const cv::Mat &R, const cv::Mat &t, cv::Mat &disparity_img);
+            const cv::Mat &R, const cv::Mat &t, 
+            cv::Mat &disparity_img, cv::Mat &depth_img);
 
     private:
 

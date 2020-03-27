@@ -123,6 +123,33 @@ stereoMatching/fast:
 	$(MAKE) -f CMakeFiles/stereoMatching.dir/build.make CMakeFiles/stereoMatching.dir/build
 .PHONY : stereoMatching/fast
 
+src/StereoMatching.o: src/StereoMatching.cpp.o
+
+.PHONY : src/StereoMatching.o
+
+# target to build an object file
+src/StereoMatching.cpp.o:
+	$(MAKE) -f CMakeFiles/stereoMatching.dir/build.make CMakeFiles/stereoMatching.dir/src/StereoMatching.cpp.o
+.PHONY : src/StereoMatching.cpp.o
+
+src/StereoMatching.i: src/StereoMatching.cpp.i
+
+.PHONY : src/StereoMatching.i
+
+# target to preprocess a source file
+src/StereoMatching.cpp.i:
+	$(MAKE) -f CMakeFiles/stereoMatching.dir/build.make CMakeFiles/stereoMatching.dir/src/StereoMatching.cpp.i
+.PHONY : src/StereoMatching.cpp.i
+
+src/StereoMatching.s: src/StereoMatching.cpp.s
+
+.PHONY : src/StereoMatching.s
+
+# target to generate assembly for a file
+src/StereoMatching.cpp.s:
+	$(MAKE) -f CMakeFiles/stereoMatching.dir/build.make CMakeFiles/stereoMatching.dir/src/StereoMatching.cpp.s
+.PHONY : src/StereoMatching.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... stereoMatching"
+	@echo "... src/StereoMatching.o"
+	@echo "... src/StereoMatching.i"
+	@echo "... src/StereoMatching.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

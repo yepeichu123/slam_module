@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/ypc/xiaoc/code/slam_module/stereoMatching/src/StereoMatching.cpp" "/home/ypc/xiaoc/code/slam_module/stereoMatching/build/CMakeFiles/stereoMatching.dir/src/StereoMatching.cpp.o"
   "/home/ypc/xiaoc/code/slam_module/stereoMatching/src/main.cpp" "/home/ypc/xiaoc/code/slam_module/stereoMatching/build/CMakeFiles/stereoMatching.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
@@ -12,6 +13,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/opt/ros/kinetic/include/opencv-3.3.1-dev"
   "/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv"
+  "../include"
   )
 
 # Targets to which this target links.

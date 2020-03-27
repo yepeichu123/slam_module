@@ -6,13 +6,31 @@
 
 #IncludeRegexTransform: 
 
+../include/StereoMatching.h
+opencv2/core/core.hpp
+-
+
+/home/ypc/xiaoc/code/slam_module/stereoMatching/src/StereoMatching.cpp
+StereoMatching.h
+/home/ypc/xiaoc/code/slam_module/stereoMatching/src/StereoMatching.h
+iostream
+-
+opencv2/highgui/highgui.hpp
+-
+opencv2/opencv.hpp
+-
+
 /home/ypc/xiaoc/code/slam_module/stereoMatching/src/main.cpp
 iostream
+-
+string
 -
 opencv2/core/core.hpp
 -
 opencv2/highgui/highgui.hpp
 -
+StereoMatching.h
+/home/ypc/xiaoc/code/slam_module/stereoMatching/src/StereoMatching.h
 
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv/cxcore.h
 opencv2/core/core_c.h

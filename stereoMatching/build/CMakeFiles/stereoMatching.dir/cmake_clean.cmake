@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/stereoMatching.dir/src/StereoMatching.cpp.o"
   "CMakeFiles/stereoMatching.dir/src/main.cpp.o"
   "../bin/stereoMatching.pdb"
   "../bin/stereoMatching"
