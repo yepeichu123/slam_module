@@ -51,5 +51,15 @@ int main(int argc, char** argv) {
         waitKey(0);
     }
 
+    /*
+    Mat depth_img = imread(depth_file, IMREAD_GRAYSCALE);
+    for (int i = 0; i < depth_img.rows; ++i) {
+        for (int j = 0; j < depth_img.cols; ++j) {
+            cout << depth_img.at<ushort>(i,j) << " ";
+        }
+        cout << endl;
+    }
+    */    
+
     return 0;
 }

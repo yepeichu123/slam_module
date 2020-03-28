@@ -21,6 +21,9 @@ class StereoMatching {
         // compute NCC scores
         float ComputeNCCScores_(cv::Point2f &left_pixel, cv::Point2f &right_pixel);
 
+        // Bilinear interpolation
+        float BilinearInterpolation();
+
         // camera intrinsics 
         cv::Mat mK_;
 

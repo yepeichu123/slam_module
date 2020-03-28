@@ -48,12 +48,14 @@ void StereoMatching::RunStereoMatching(const cv::Mat &left_img, const cv::Mat &r
 
     disparity_img = cv::Mat(mnRows_, mnCols_, 0);
     depth_img = cv::Mat(mnRows_, mnCols_, 0);
-    float base_line = cv::norm(t);
+    float base_line = -cv::norm(t);
     float f = mK_.at<float>(0,0);
+    cout << "base_line = " << base_line << ", f = " << f << endl;
+    cout << "bf = " << base_line * f << endl;
 
     // go through each pixel  
     for (int r = mnPadding_; r < mnRows_ - mnPadding_; ++r) {
-        int  count = 0;
+        int count = 0;
         for (int c = mnPadding_; c < mnCols_ - mnPadding_; ++c) {
             cv::Point2f left_p(c, r);
             cv::Point2f right_p;
@@ -61,25 +63,30 @@ void StereoMatching::RunStereoMatching(const cv::Mat &left_img, const cv::Mat &r
                 continue;
             }
 
-            float d = right_p.x - left_p.x;
+            float d = left_p.x - right_p.x;
+            // cout << d << " " << " : [ " << left_p.x << " , " << right_p.x << " ]" << endl;
             disparity_img.at<uchar>(r,c) = d;
-            depth_img.at<uchar>(r,c) = base_line * f / d;
+
+            // to view it clearly, so we multiply 3
+            depth_img.at<uchar>(r,c) = (base_line * f / d) * 3.;
             ++count;
         }
+        // cout << endl;
         cout << r << " : we get " << count << " matching pairs." << endl;
     } 
+
     /*
-    for (int r = mnPadding_; r < disparity_img.rows - mnPadding_; ++r) {
-        for (int c = mnPadding_; c < disparity_img.cols - mnPadding_; ++c) {
-            float d = disparity_img.at<uchar>(r, c);
-            int width = disparity_img.cols;
+    for (int r = mnPadding_; r < depth_img.rows - mnPadding_; ++r) {
+        for (int c = mnPadding_; c < depth_img.cols - mnPadding_; ++c) {
+            float d = depth_img.at<uchar>(r, c);
+            int width = depth_img.cols;
             if (d == 0) {
-                d = (disparity_img.at<uchar>(r, c+1) + 
-                     disparity_img.at<uchar>(r, c-1) + 
-                     disparity_img.at<uchar>(r+1, c) + 
-                     disparity_img.at<uchar>(r-1, c)
+                d = (depth_img.at<uchar>(r, c+1) + 
+                     depth_img.at<uchar>(r, c-1) + 
+                     depth_img.at<uchar>(r+1, c) + 
+                     depth_img.at<uchar>(r-1, c)
                 ) / 4;
-                disparity_img.at<uchar>(r, c) = d;
+                depth_img.at<uchar>(r, c) = d;
             }
         }
     }
@@ -91,7 +98,8 @@ bool StereoMatching::EpipolarSearch_(cv::Point2f &left_pixel, cv::Point2f &right
     
     // go through all pixels in the epipolar line 
     float best_scores = 0;
-    for (int i = mnPadding_; i < mnCols_- mnPadding_; ++i) {
+    int start_index = left_pixel.x;
+    for (int i = start_index; i < mnCols_; ++i) {
         cv::Point2f temp_point(i, (int)left_pixel.y);
         float ncc = ComputeNCCScores_(left_pixel, temp_point);
 
