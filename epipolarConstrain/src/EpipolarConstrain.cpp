@@ -53,14 +53,53 @@ bool EpipolarConstrain::ComputeRelativePose(std::vector<cv::KeyPoint> &ref_kpts,
     ref_kpts.insert(ref_kpts.end(), ref_p.begin(), ref_p.end());
     cur_kpts.insert(cur_kpts.end(), cur_p.begin(), cur_p.end());
     matches.insert(matches.end(), good_matches.begin(), good_matches.end());
+
+    // check pose error
+    std::vector<cv::Point2f> p1, p2;
+    for (int i = 0; i < ref_kpts.size(); ++i) {
+        p1.push_back(ref_kpts[i].pt);
+        p2.push_back(cur_kpts[i].pt);
+    }
+    float error = CheckPoseError(p1, p2, R, t);
+    cout << "average error is : " << error << endl; 
 }
 
-int EpipolarConstrain::MatchingByRANSAC() {
+int EpipolarConstrain::IterateByRANSAC(std::vector<cv::DMatch> &matches, std::vector<cv::KeyPoint> &ref_kpt, std::vector<cv::KeyPoint> &cur_kpt,
+    cv::Mat &R, cv::Mat &t) {
+    
+    // Todo:
+    // loop:
+        // random seletected 8 points
+        // EpipolarConstrainFor8Points(...)
+        // FindBestPoseFromEssMat(...)
+        // we can get the the camera pose, but we should check whether the pose is best.
+        // so we save the camera pose and inliers 
+        // and go on the next random until we find the best one which satisfied our need
+        // ...
+        // and then we return the R and t
 
 }
 
-float EpipolarConstrain::CheckPoseError() {
+float EpipolarConstrain::CheckPoseError(std::vector<cv::Point2f> &ref_pixel, std::vector<cv::Point2f> &cur_pixel,
+    cv::Mat &R, cv::Mat &t) {
 
+    cv::Mat tx = (cv::Mat_<float>(3,3) << 0, -t.at<float>(2), t.at<float>(1),
+                                          t.at<float>(2), 0, -t.at<float>(0),
+                                          -t.at<float>(1), t.at<float>(0), 0);
+    cv::Mat E = tx * R;
+
+    float error = 0;
+    for (int i = 0; i < ref_pixel.size(); ++i) {
+        cv::Mat ref_p = (cv::Mat_<float>(3,1) << (ref_pixel[i].x - mK_.at<float>(0, 2)) / mK_.at<float>(0, 0), 
+                                                 (ref_pixel[i].y - mK_.at<float>(1, 2)) / mK_.at<float>(1, 1),
+                                                 1);
+        cv::Mat cur_p = (cv::Mat_<float>(3,1) << (cur_pixel[i].x - mK_.at<float>(0, 2)) / mK_.at<float>(0, 0), 
+                                                 (cur_pixel[i].y - mK_.at<float>(1, 2)) / mK_.at<float>(1, 1),
+                                                 1);
+        cv::Mat e = cur_p.t() * E * ref_p;
+        error += cv::norm(e);
+    }
+    return (error / ref_pixel.size());
 }
 
 void EpipolarConstrain::EpipolarConstrainFor8Points(std::vector<cv::Point2f> &ref_pixel, std::vector<cv::Point2f> &cur_pixel,
@@ -93,7 +132,6 @@ void EpipolarConstrain::EpipolarConstrainFor8Points(std::vector<cv::Point2f> &re
 
     cv::Mat u, w, vt;
     cv::SVD::compute(A, w, u, vt, cv::SVD::MODIFY_A|cv::SVD::FULL_UV);
-    cout << "vt = " << vt << endl;
     E = vt.row(8).t();
     cout << "E = " << E << endl;
 
@@ -101,9 +139,6 @@ void EpipolarConstrain::EpipolarConstrainFor8Points(std::vector<cv::Point2f> &re
                                               E.at<float>(3), E.at<float>(4), E.at<float>(5),
                                               E.at<float>(6), E.at<float>(7), E.at<float>(8));
     E = E_new.clone();
-
-    cv::Mat R, t;
-    FindBestPoseFromEssMat(E, ref_pixel, cur_pixel, R, t);
 }
 
 void EpipolarConstrain::FindBestPoseFromEssMat(const cv::Mat &E, std::vector<cv::Point2f> &ref_pixel, std::vector<cv::Point2f> &cur_pixel,
@@ -113,6 +148,14 @@ void EpipolarConstrain::FindBestPoseFromEssMat(const cv::Mat &E, std::vector<cv:
         return;
     }
 
+    cv::Mat rvec, tvec;
+    cv::recoverPose(E, ref_pixel, cur_pixel, mK_, rvec, tvec);
+    R = cv::Mat::eye(3, 3, CV_32F);
+    t = cv::Mat::zeros(3, 1, CV_32F);
+    rvec.convertTo(R, CV_32F);
+    tvec.convertTo(t, CV_32F);
+
+    /*
     cv::Mat u, w, vt;
     cv::SVD::compute(E, w, u, vt, cv::SVD::FULL_UV);
     cout << "u = " << u << endl;
@@ -121,7 +164,6 @@ void EpipolarConstrain::FindBestPoseFromEssMat(const cv::Mat &E, std::vector<cv:
     cv::Mat S = (cv::Mat_<float>(3,3) << w.at<float>(0), 0, 0,
                                          0, w.at<float>(1), 0,
                                          0, 0, w.at<float>(2));
-
 
     cv::Mat rot1, rot2;
     cv::Mat rvec1 = (cv::Mat_<float>(3,1) << 0, 0, -PI/2);
@@ -146,4 +188,5 @@ void EpipolarConstrain::FindBestPoseFromEssMat(const cv::Mat &E, std::vector<cv:
 
     cout << "tx1 = " << tx1 << endl;
     cout << "tx2 = " << tx2 << endl;
+    */
 }

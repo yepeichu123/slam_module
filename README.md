@@ -19,4 +19,7 @@
 6.  **stereoMatching**完成了利用对齐图像的极线搜索计算NCC匹配分数，匹配分数符合阈值条件的，实现视差图和深度图。双目匹配可以详见stereoMatching/README.md;
 
 
-7.  
+7.  **epipolarConstrain**完成了利用对极几何约束求解两帧间相对运动，并验证求解误差。详情可见epipolarConstrain/README.md;
+
+
+8. 

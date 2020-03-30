@@ -55,8 +55,6 @@ int main(int argc, char** argv) {
     EpipolarConstrain my_ec(K);
     Mat R, t;
     my_ec.ComputeRelativePose(kpts_1, kpts_2, good_matches, R, t);
-    cout << "R = " << R << endl;
-    cout << "t = " << t << endl;
     Mat t_x = (Mat_<float>(3, 3) << 0, -t.at<float>(2,0), t.at<float>(1,0),
                                     t.at<float>(2,0), 0, -t.at<float>(0,0),
                                     -t.at<float>(1,0), t.at<float>(0,0), 0);
