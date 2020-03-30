@@ -12,3 +12,8 @@
 8. 验证结果。
 
 
+### 参考文献
+
+1. [使用cv::findFundamentalMat要注意的几点](http://blog.sina.com.cn/s/blog_4298002e01013w9a.html)
+2. [对极几何、对极约束、单应性变换](https://blog.csdn.net/ak47fourier/article/details/82356771)
+3. 

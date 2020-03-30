@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/EpipolarConstrain.dir/src/main.cpp.o"
+  "CMakeFiles/EpipolarConstrain.dir/src/EpipolarConstrain.cpp.o"
   "../bin/EpipolarConstrain.pdb"
   "../bin/EpipolarConstrain"
 )

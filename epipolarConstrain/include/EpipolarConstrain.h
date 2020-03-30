@@ -9,11 +9,18 @@ class EpipolarConstrain {
 
         ~EpipolarConstrain();
 
-        bool ComputeRelativePose();
+        bool ComputeRelativePose(std::vector<cv::KeyPoint> &ref_kpts, std::vector<cv::KeyPoint> &cur_kpts, 
+            std::vector<cv::DMatch> &matches, cv::Mat &R, cv::Mat &t);
 
         int MatchingByRANSAC();
 
         float CheckPoseError();
+
+        void EpipolarConstrainFor8Points(std::vector<cv::Point2f> &ref_pixel, std::vector<cv::Point2f> &cur_pixel,
+            cv::Mat &E);
+
+        void FindBestPoseFromEssMat(const cv::Mat &E, std::vector<cv::Point2f> &ref_pixel, std::vector<cv::Point2f> &cur_pixel,
+            cv::Mat &R, cv::Mat &t);
 
     private:
 

@@ -9,7 +9,8 @@ find_package(OpenCV 3.2 REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-set(SRC_CPP ${PROJECT_SOURCE_DIR}/src/main.cpp)
+set(SRC_CPP ${PROJECT_SOURCE_DIR}/src/main.cpp
+            ${PROJECT_SOURCE_DIR}/src/EpipolarConstrain.cpp)
 
 add_executable(EpipolarConstrain ${SRC_CPP})
 target_link_libraries(EpipolarConstrain ${OpenCV_LIBS})

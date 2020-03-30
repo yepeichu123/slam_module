@@ -123,6 +123,33 @@ EpipolarConstrain/fast:
 	$(MAKE) -f CMakeFiles/EpipolarConstrain.dir/build.make CMakeFiles/EpipolarConstrain.dir/build
 .PHONY : EpipolarConstrain/fast
 
+src/EpipolarConstrain.o: src/EpipolarConstrain.cpp.o
+
+.PHONY : src/EpipolarConstrain.o
+
+# target to build an object file
+src/EpipolarConstrain.cpp.o:
+	$(MAKE) -f CMakeFiles/EpipolarConstrain.dir/build.make CMakeFiles/EpipolarConstrain.dir/src/EpipolarConstrain.cpp.o
+.PHONY : src/EpipolarConstrain.cpp.o
+
+src/EpipolarConstrain.i: src/EpipolarConstrain.cpp.i
+
+.PHONY : src/EpipolarConstrain.i
+
+# target to preprocess a source file
+src/EpipolarConstrain.cpp.i:
+	$(MAKE) -f CMakeFiles/EpipolarConstrain.dir/build.make CMakeFiles/EpipolarConstrain.dir/src/EpipolarConstrain.cpp.i
+.PHONY : src/EpipolarConstrain.cpp.i
+
+src/EpipolarConstrain.s: src/EpipolarConstrain.cpp.s
+
+.PHONY : src/EpipolarConstrain.s
+
+# target to generate assembly for a file
+src/EpipolarConstrain.cpp.s:
+	$(MAKE) -f CMakeFiles/EpipolarConstrain.dir/build.make CMakeFiles/EpipolarConstrain.dir/src/EpipolarConstrain.cpp.s
+.PHONY : src/EpipolarConstrain.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... EpipolarConstrain"
+	@echo "... src/EpipolarConstrain.o"
+	@echo "... src/EpipolarConstrain.i"
+	@echo "... src/EpipolarConstrain.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
