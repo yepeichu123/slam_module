@@ -155,6 +155,12 @@ void EpipolarConstrain::FindBestPoseFromEssMat(const cv::Mat &E, std::vector<cv:
     rvec.convertTo(R, CV_32F);
     tvec.convertTo(t, CV_32F);
 
+    // Todo:
+    // SVD decompose Essential Matrix to get U, W, VT
+    // construct R and t, then we get 4 projection matrix 
+    // and use triangulate points to check out the best one 
+    // and then return the best pose 
+
     /*
     cv::Mat u, w, vt;
     cv::SVD::compute(E, w, u, vt, cv::SVD::FULL_UV);

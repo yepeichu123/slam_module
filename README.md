@@ -16,10 +16,11 @@
 5. **epipolarSearch**完成了基于NCC的极线搜索方法，通过设置深度范围计算极线，利用NCC计算匹配分数。极线搜索可以详见epipolarSearch/README.md;
    
 
-6.  **stereoMatching**完成了利用对齐图像的极线搜索计算NCC匹配分数，匹配分数符合阈值条件的，实现视差图和深度图。双目匹配可以详见stereoMatching/README.md;
+6. **stereoMatching**完成了利用对齐图像的极线搜索计算NCC匹配分数，匹配分数符合阈值条件的，实现视差图和深度图。双目匹配可以详见stereoMatching/README.md;
 
 
-7.  **epipolarConstrain**完成了利用对极几何约束求解两帧间相对运动，并验证求解误差。详情可见epipolarConstrain/README.md;
+7. **epipolarConstrain**完成了利用对极几何约束求解两帧间相对运动，并验证求解误差。详情可见epipolarConstrain/README.md;
 
 
-8. 
+8. **ComputeHomography**完成了利用单应约束求解两帧间的单应矩阵，并将两个图像连接起来。详情可见ComputeHomography/README.md;
+
