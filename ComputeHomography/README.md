@@ -118,4 +118,8 @@ $$\mathbf{p_{2}} = \frac{s_{1}}{s_{2}}\mathbf{H}\mathbf{p_{1}}$$
 
 8. [OpenCV 单应矩阵应用：全景图像融合原理](https://www.jianshu.com/p/549ce9168b0e)
 
+9. [SVD分解及线性最小二乘问题](https://www.cnblogs.com/houkai/p/6656894.html)
+
+
+
 

@@ -53,7 +53,9 @@ float ComputeHomography::CheckPoseError(const std::vector<cv::KeyPoint> &ref_kpt
         cv::Point2f p2 = cur_kpts[matches[i].trainIdx].pt;
         cv::Mat p1_cam = (cv::Mat_<float>(3, 1) << p1.x, p1.y, 1);
         cv::Mat p2_cam = (cv::Mat_<float>(3, 1) << p2.x, p2.y, 1);
-        cv::Mat e = p2_cam - H * p1_cam;
+        cv::Mat Hp1 = H * p1_cam;
+        cv::Mat Hp1_norm = Hp1 / Hp1.at<float>(2);
+        cv::Mat e = p2_cam - Hp1_norm;
         error += cv::norm(e);
     }
     cout << "Average error is " << error / matches.size() << endl;
@@ -70,7 +72,9 @@ float ComputeHomography::CheckPoseErrorWithK(const std::vector<cv::KeyPoint> &re
         Pixel2Cam_(cur_kpts[matches[i].trainIdx], p2);
         cv::Mat p1_cam = (cv::Mat_<float>(3, 1) << p1.x, p1.y, 1);
         cv::Mat p2_cam = (cv::Mat_<float>(3, 1) << p2.x, p2.y, 1);
-        cv::Mat e = p2_cam - H * p1_cam;
+        cv::Mat Hp1 = H * p1_cam;
+        cv::Mat Hp1_norm = Hp1 / Hp1.at<float>(2);
+        cv::Mat e = p2_cam - Hp1_norm;
         error += cv::norm(e);
     }
     cout << "Average error is " << error / matches.size() << endl;
