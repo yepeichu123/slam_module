@@ -21,7 +21,11 @@ opencv2/calib3d/calib3d.hpp
 -
 opencv2/highgui/highgui.hpp
 -
+opencv2/stitching.hpp
+-
 iostream
+-
+fstream
 -
 
 /home/ypc/xiaoc/code/slam_module/ComputeHomography/src/main.cpp

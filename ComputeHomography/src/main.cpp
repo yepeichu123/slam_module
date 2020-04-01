@@ -8,7 +8,7 @@
 // c++
 #include <iostream>
 #include <sstream>
-#define IMG_NUM 12
+#define IMG_NUM 10
 
 using namespace cv;
 using namespace std;
@@ -36,28 +36,42 @@ int main(int argc, char** argv) {
                                 0, 519.0, 253.5,
                                 0, 0, 1);
 
-    Mat img_1 = images[0];
-    Mat img_2 = images[8];
-    vector<KeyPoint> kpts_1, kpts_2;
-    Mat desp_1, desp_2;
-    vector<DMatch> matches;
-    FeatureExtraction(img_1, kpts_1, desp_1);
-    FeatureExtraction(img_2, kpts_2, desp_2);
-    FeatureMatching(desp_1, desp_2, matches);
-    Mat out_img;
-    drawMatches(img_1, kpts_1, img_2, kpts_2, matches, out_img);
-    imshow("matching_img", out_img);
-    waitKey(0);
-
     ComputeHomography homo(K);
-    Mat H;
-    homo.RunComputeHomography(kpts_1, kpts_2, matches, H);
-    Mat stitch_img;
-    homo.ImagesStitch(img_1, img_2, H, stitch_img);
-    if (!stitch_img.empty()) {
-        imshow("stitch image", stitch_img);
+    Mat stitch_img_final;
+    Mat ref_img = images[0];
+    for (int i = 1; i < images.size(); ++i) {
+        cout << "\n Image " << i << " : " << endl;
+
+        Mat cur_img = images[i];
+        vector<KeyPoint> kpts_1, kpts_2;
+        Mat desp_1, desp_2;
+        vector<DMatch> matches;
+        FeatureExtraction(ref_img, kpts_1, desp_1);
+        FeatureExtraction(cur_img, kpts_2, desp_2);
+        FeatureMatching(desp_1, desp_2, matches);
+
+        Mat H;
+        homo.RunComputeHomography(kpts_1, kpts_2, matches, H);
+        Mat stitch_img;
+        if (!stitch_img_final.empty()) {
+            stitch_img_final.copyTo(ref_img);
+        }
+        cout << "Stitch image!" << endl;
+
+        homo.ImagesStitch(ref_img, cur_img, H, stitch_img);
+        if (!stitch_img.empty()) {
+            stitch_img.copyTo(stitch_img_final);
+        }
+        cur_img.copyTo(ref_img);
+    }
+
+    if (!stitch_img_final.empty()) {
+        string out_file = string(argv[1]) + "stitched_img.png";
+        imwrite(out_file, stitch_img_final);
+        imshow("stitched_img", stitch_img_final);
         waitKey(0);
     }
+
     return 0;
 }
 
@@ -94,8 +108,11 @@ void ReadImagesFromFile(const string &path, vector<Mat> &images) {
         ss >> img_file;
 
         Mat img = imread(img_file, IMREAD_COLOR);
+
         if (!img.empty()) {
-            images.push_back(img);
+            int padding = 10;
+            Mat crop_img = img(Rect(padding, padding, img.cols-padding*2, img.rows-padding*2)).clone();
+            images.push_back(crop_img);
         }
     }
     cout << "We read " << images.size() << " images from " << img_path << endl;
