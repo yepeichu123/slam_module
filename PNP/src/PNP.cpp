@@ -60,7 +60,7 @@ bool PNP::ComputeRelativePosePNP_(std::vector<cv::Point3f> &ref_p3d, std::vector
     if (ref_p3d.size() > 0 && cur_p2d.size() > 0 && ref_p3d.size() == cur_p2d.size()) {
         vector<char> inliers;
         cv::Mat r_vec, t_vec;
-        if (cv::solvePnPRansac(ref_p3d, cur_p2d, m_K_, cv::Mat(), r_vec, t_vec, false, 100, 8.0F, 0.999, inliers)) {
+        if (cv::solvePnPRansac(ref_p3d, cur_p2d, m_K_, cv::Mat(), r_vec, t_vec, false, 100, 8.0F, 0.99, inliers)) {
             ChooseGoodMatching(ref_p3d, cur_p2d, inliers);
             cv::Mat r;
             cv::Rodrigues(r_vec, r);
