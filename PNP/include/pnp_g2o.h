@@ -40,8 +40,6 @@ class EdgePNP2: public g2o::BaseBinaryEdge<2, Eigen::Vector2d, g2o::VertexSBAPoi
         virtual void linearizeOplus();
 
     protected:
-        Eigen::Vector3d m_p3d_;
-
         Eigen::Matrix3d m_K_;
 };
 

@@ -108,8 +108,8 @@ bool PNP::ComputeRelativePosePNPByBA_(std::vector<cv::Point3f>& ref_p3d, std::ve
         g2o::SparseOptimizer optimizer;
         optimizer.setVerbose(true);
         g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(
-            g2o::make_unique<g2o::BlockSolverX>(
-                g2o::make_unique<g2o::LinearSolverDense<g2o::BlockSolverX::PoseMatrixType> >()
+            g2o::make_unique<g2o::BlockSolver_6_3>(
+                g2o::make_unique<g2o::LinearSolverDense<g2o::BlockSolver_6_3::PoseMatrixType> >()
             )
         );
         optimizer.setAlgorithm(solver);
