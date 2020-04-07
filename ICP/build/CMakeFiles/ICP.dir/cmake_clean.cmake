@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ICP.dir/src/main.cpp.o"
   "CMakeFiles/ICP.dir/src/ICP.cpp.o"
+  "CMakeFiles/ICP.dir/src/ICP_G2O.cpp.o"
   "../bin/ICP.pdb"
   "../bin/ICP"
 )

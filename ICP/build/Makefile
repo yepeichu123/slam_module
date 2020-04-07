@@ -150,6 +150,33 @@ src/ICP.cpp.s:
 	$(MAKE) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/src/ICP.cpp.s
 .PHONY : src/ICP.cpp.s
 
+src/ICP_G2O.o: src/ICP_G2O.cpp.o
+
+.PHONY : src/ICP_G2O.o
+
+# target to build an object file
+src/ICP_G2O.cpp.o:
+	$(MAKE) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/src/ICP_G2O.cpp.o
+.PHONY : src/ICP_G2O.cpp.o
+
+src/ICP_G2O.i: src/ICP_G2O.cpp.i
+
+.PHONY : src/ICP_G2O.i
+
+# target to preprocess a source file
+src/ICP_G2O.cpp.i:
+	$(MAKE) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/src/ICP_G2O.cpp.i
+.PHONY : src/ICP_G2O.cpp.i
+
+src/ICP_G2O.s: src/ICP_G2O.cpp.s
+
+.PHONY : src/ICP_G2O.s
+
+# target to generate assembly for a file
+src/ICP_G2O.cpp.s:
+	$(MAKE) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/src/ICP_G2O.cpp.s
+.PHONY : src/ICP_G2O.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -189,6 +216,9 @@ help:
 	@echo "... src/ICP.o"
 	@echo "... src/ICP.i"
 	@echo "... src/ICP.s"
+	@echo "... src/ICP_G2O.o"
+	@echo "... src/ICP_G2O.i"
+	@echo "... src/ICP_G2O.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

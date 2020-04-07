@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ICP.h"
+#include "ICP_G2O.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
@@ -45,7 +46,7 @@ int main(int argc, char** argv) {
     TransformPoints3d(K, ref_depth, cur_depth, scale, matches, ref_kpts, ref_vp3d, cur_kpts, cur_vp3d);
 
     ICP my_icp;
-    ICP_TYPE type = ICP_TYPE::SVD;
+    ICP_TYPE type = ICP_TYPE::BA;
     Mat R, t;
     bool flag = my_icp.RunICP(ref_vp3d, cur_vp3d, R, t, type);
     if (flag) {

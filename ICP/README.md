@@ -111,7 +111,7 @@ $$R = UV^{T}$$
 $$t^{\star} = \hat{p} - R\hat{q}$$ 
 
 
-**步骤八**：以SVD求解的结果进一步进行Bundle Adjustment优化，使位姿更精确。
+**步骤八**：以SVD求解的结果进一步进行Bundle Adjustment优化，使位姿更精确。(笔者在自己的代码里也实现了ICP的g2o优化代码)
 
 
 #### 总结
