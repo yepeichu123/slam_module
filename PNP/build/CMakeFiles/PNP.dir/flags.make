@@ -6,5 +6,5 @@ CXX_FLAGS = -std=c++11 -O3 -DNDEBUG
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv -I/home/ypc/xiaoc/code/slam_module/PNP/include 
+CXX_INCLUDES = -I/usr/local/include -I/usr/include/suitesparse -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv -I/home/ypc/xiaoc/code/slam_module/PNP/include -I/usr/local/include/eigen3 
 

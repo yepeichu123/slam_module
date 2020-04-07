@@ -149,7 +149,7 @@ bool ICP::SovleICPByBA(std::vector<cv::Point3f>& ref_p3d, std::vector<cv::Point3
             optimizer.addVertex(v_p3d);
 
             EdgeICP* e = new EdgeICP();
-            e->setVertex(0, v_se3);
+            // e->setVertex(0, v_se3);
             e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(v_p3d));
             e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertices().find(0)->second));
             e->setMeasurement(p_to);

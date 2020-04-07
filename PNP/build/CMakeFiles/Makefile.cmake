@@ -11,6 +11,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.9.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.9.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.9.2/CMakeSystem.cmake"
+  "../cmake_modules/FindCSparse.cmake"
+  "../cmake_modules/FindG2O.cmake"
   "/opt/ros/kinetic/share/OpenCV-3.3.1-dev/OpenCVConfig-version.cmake"
   "/opt/ros/kinetic/share/OpenCV-3.3.1-dev/OpenCVConfig.cmake"
   "/opt/ros/kinetic/share/OpenCV-3.3.1-dev/OpenCVModules-release.cmake"

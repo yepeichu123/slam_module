@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/PNP.dir/src/main.cpp.o"
   "CMakeFiles/PNP.dir/src/PNP.cpp.o"
+  "CMakeFiles/PNP.dir/src/pnp_g2o.cpp.o"
   "../bin/PNP.pdb"
   "../bin/PNP"
 )

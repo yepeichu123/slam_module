@@ -1,11 +1,24 @@
 #include "PNP.h"
+#include "pnp_g2o.h"
 #include <opencv2/calib3d/calib3d.hpp>
 #include <iostream>
+#include <g2o/core/sparse_optimizer.h>
+#include <g2o/core/optimization_algorithm_levenberg.h>
+#include <g2o/core/solver.h>
+#include <g2o/core/block_solver.h>
+#include <g2o/solvers/dense/linear_solver_dense.h>
+#include <g2o/types/sba/types_six_dof_expmap.h>
 
 using namespace std;
 
 PNP::PNP(const cv::Mat &K) {
     m_K_ = K.clone();
+
+    cv::Mat K_new;
+    m_K_.convertTo(K_new, CV_64F);
+    m_eK_ << K_new.at<double>(0, 0), K_new.at<double>(0,1), K_new.at<double>(0,2),
+             K_new.at<double>(1, 0), K_new.at<double>(1,1), K_new.at<double>(1,2),
+             K_new.at<double>(2, 0), K_new.at<double>(2,1), K_new.at<double>(2,2);
 }
 
 PNP::~PNP() {
@@ -17,7 +30,8 @@ bool PNP::RunPNP(std::vector<cv::Point3f> &ref_p3d, std::vector<cv::Point2f> &cu
     
     if (ref_p3d.size() > 0 && cur_p2d.size() > 0 && ref_p3d.size() == cur_p2d.size()) {
         // compute relative pose
-        bool flag = ComputeRelativePosePNP_(ref_p3d, cur_p2d, R, t);
+        // bool flag = ComputeRelativePosePNP_(ref_p3d, cur_p2d, R, t);
+        bool flag = ComputeRelativePosePNPByBA_(ref_p3d, cur_p2d, R, t);
 
         if (flag) {
             // compute error 
@@ -74,6 +88,74 @@ bool PNP::ComputeRelativePosePNP_(std::vector<cv::Point3f> &ref_p3d, std::vector
     return false;
 }
 
+bool PNP::ComputeRelativePosePNPByBA_(std::vector<cv::Point3f>& ref_p3d, std::vector<cv::Point2f>& cur_p2d,
+    cv::Mat& R, cv::Mat& t) {
+    
+    bool flag = false;
+
+    if (ref_p3d.size() > 0 && cur_p2d.size() > 0 && ref_p3d.size() == cur_p2d.size()) {
+        cout << "ComputeRelativePosePNPByBA_" << endl;
+        cv::Mat R_temp, t_temp;
+        flag = ComputeRelativePosePNP_(ref_p3d, cur_p2d, R_temp, t_temp);
+        cout << "Before optimization:" << endl;
+        cout << "R = " << R_temp << "\n, t = " << t_temp << endl;
+
+        Eigen::Matrix3d Rot;
+        Eigen::Vector3d trans;
+        ConvertPoseMatToEigen_(R_temp, t_temp, Rot, trans);
+
+        // setup algorithm
+        g2o::SparseOptimizer optimizer;
+        optimizer.setVerbose(true);
+        g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(
+            g2o::make_unique<g2o::BlockSolverX>(
+                g2o::make_unique<g2o::LinearSolverDense<g2o::BlockSolverX::PoseMatrixType> >()
+            )
+        );
+        optimizer.setAlgorithm(solver);
+
+        // add vertex 
+        g2o::VertexSE3Expmap* v_se3 = new g2o::VertexSE3Expmap();
+        v_se3->setId(0);
+        g2o::SE3Quat pose(Rot, trans);
+        v_se3->setEstimate(pose);
+        optimizer.addVertex(v_se3);
+        
+        int count = 1;
+        // add edges
+        for (int i = 0; i < ref_p3d.size(); ++i) {
+            Eigen::Vector3d p3d;
+            Eigen::Vector2d p2d;
+            ConvertPointMatToEigen_(ref_p3d[i], cur_p2d[i], p3d, p2d);
+
+            g2o::VertexSBAPointXYZ* vp3d = new g2o::VertexSBAPointXYZ();
+            vp3d->setId(count++);
+            vp3d->setEstimate(p3d);
+            optimizer.addVertex(vp3d);
+
+            EdgePNP2* epnp = new EdgePNP2(m_eK_);
+            epnp->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(vp3d));
+            epnp->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertices().find(0)->second));
+            epnp->setMeasurement(p2d);
+            epnp->setInformation(Eigen::Matrix2d());
+            optimizer.addEdge(epnp);
+        } 
+        cout << "Begin optimization." << endl;
+        optimizer.initializeOptimization();
+        optimizer.computeActiveErrors();
+        cout << "Initial chi2 = " << FIXED(optimizer.chi2()) << endl;
+        optimizer.optimize(10);
+
+        g2o::SE3Quat T = v_se3->estimate();
+        Rot = T.rotation();
+        trans = T.translation();
+        ConvertPoseEigenToMat_(Rot, trans, R, t);
+        cout << "After optimization:" << endl;
+        cout << "R = " << R << "\n t = " << t << endl;
+    }
+    return flag;
+}
+
 void PNP::ChooseGoodMatching(std::vector<cv::Point3f> &ref_p3d, std::vector<cv::Point2f> &cur_p2d,
     std::vector<char> &inliers) {
      if (ref_p3d.size() == cur_p2d.size() && ref_p3d.size() > 0 && cur_p2d.size() > 0 && inliers.size() > 0) {
@@ -110,4 +192,28 @@ void PNP::Pixel2Cam_(const cv::Mat &pixel, cv::Mat &p3d) {
         (pixel.at<float>(1) - m_K_.at<float>(1,2)) / m_K_.at<float>(1,1),
         1    
     );
+}
+
+void PNP::ConvertPoseMatToEigen_(const cv::Mat& R, const cv::Mat &t, Eigen::Matrix3d& Rot, Eigen::Vector3d& trans) {
+    cv::Mat R_new, t_new;
+    R.convertTo(R_new, CV_64F);
+    t.convertTo(t_new, CV_64F);
+
+    Rot << R_new.at<double>(0,0), R_new.at<double>(0,1), R_new.at<double>(0,2),
+           R_new.at<double>(1,0), R_new.at<double>(1,1), R_new.at<double>(1,2),
+           R_new.at<double>(2,0), R_new.at<double>(2,1), R_new.at<double>(2,2);
+
+    trans << t_new.at<double>(0), t_new.at<double>(1), t_new.at<double>(2);
+}
+
+void PNP::ConvertPoseEigenToMat_(const Eigen::Matrix3d& Rot, const Eigen::Vector3d& trans, cv::Mat& R, cv::Mat& t) {
+    R = (cv::Mat_<float>(3, 3) << Rot(0, 0), Rot(0, 1), Rot(0, 2),
+                                  Rot(1, 0), Rot(1, 1), Rot(1, 2),
+                                  Rot(2, 0), Rot(2, 1), Rot(2, 2));
+    t = (cv::Mat_<float>(3, 1) << trans(0), trans(1), trans(2));
+}
+
+void PNP::ConvertPointMatToEigen_(const cv::Point3f& ref_p3d, const cv::Point2f& cur_p2d, Eigen::Vector3d& p3d, Eigen::Vector2d& p2d) {
+    p3d << ref_p3d.x, ref_p3d.y, ref_p3d.z;
+    p2d << cur_p2d.x, cur_p2d.y;
 }

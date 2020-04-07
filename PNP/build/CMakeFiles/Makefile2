@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /home/ypc/xiaoc/code/slam_module/PNP/build
 CMakeFiles/PNP.dir/all:
 	$(MAKE) -f CMakeFiles/PNP.dir/build.make CMakeFiles/PNP.dir/depend
 	$(MAKE) -f CMakeFiles/PNP.dir/build.make CMakeFiles/PNP.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ypc/xiaoc/code/slam_module/PNP/build/CMakeFiles --progress-num=1,2,3 "Built target PNP"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ypc/xiaoc/code/slam_module/PNP/build/CMakeFiles --progress-num=1,2,3,4 "Built target PNP"
 .PHONY : CMakeFiles/PNP.dir/all
 
 # Include target in all.
@@ -76,7 +76,7 @@ all: CMakeFiles/PNP.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/PNP.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ypc/xiaoc/code/slam_module/PNP/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ypc/xiaoc/code/slam_module/PNP/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/PNP.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ypc/xiaoc/code/slam_module/PNP/build/CMakeFiles 0
 .PHONY : CMakeFiles/PNP.dir/rule

@@ -177,6 +177,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/PNP.dir/build.make CMakeFiles/PNP.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/pnp_g2o.o: src/pnp_g2o.cpp.o
+
+.PHONY : src/pnp_g2o.o
+
+# target to build an object file
+src/pnp_g2o.cpp.o:
+	$(MAKE) -f CMakeFiles/PNP.dir/build.make CMakeFiles/PNP.dir/src/pnp_g2o.cpp.o
+.PHONY : src/pnp_g2o.cpp.o
+
+src/pnp_g2o.i: src/pnp_g2o.cpp.i
+
+.PHONY : src/pnp_g2o.i
+
+# target to preprocess a source file
+src/pnp_g2o.cpp.i:
+	$(MAKE) -f CMakeFiles/PNP.dir/build.make CMakeFiles/PNP.dir/src/pnp_g2o.cpp.i
+.PHONY : src/pnp_g2o.cpp.i
+
+src/pnp_g2o.s: src/pnp_g2o.cpp.s
+
+.PHONY : src/pnp_g2o.s
+
+# target to generate assembly for a file
+src/pnp_g2o.cpp.s:
+	$(MAKE) -f CMakeFiles/PNP.dir/build.make CMakeFiles/PNP.dir/src/pnp_g2o.cpp.s
+.PHONY : src/pnp_g2o.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/pnp_g2o.o"
+	@echo "... src/pnp_g2o.i"
+	@echo "... src/pnp_g2o.s"
 .PHONY : help
 
 
