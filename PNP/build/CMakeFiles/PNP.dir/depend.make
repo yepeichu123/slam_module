@@ -254,6 +254,7 @@ CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/optimization_algor
 CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/parameter.h
 CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/parameter_container.h
 CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/robust_kernel.h
+CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/robust_kernel_impl.h
 CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/solver.h
 CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/sparse_block_matrix.h
 CMakeFiles/PNP.dir/src/PNP.cpp.o: /usr/local/include/g2o/core/sparse_block_matrix.hpp

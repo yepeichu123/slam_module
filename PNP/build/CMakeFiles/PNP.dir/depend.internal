@@ -255,6 +255,7 @@ CMakeFiles/PNP.dir/src/PNP.cpp.o
  /usr/local/include/g2o/core/parameter.h
  /usr/local/include/g2o/core/parameter_container.h
  /usr/local/include/g2o/core/robust_kernel.h
+ /usr/local/include/g2o/core/robust_kernel_impl.h
  /usr/local/include/g2o/core/solver.h
  /usr/local/include/g2o/core/sparse_block_matrix.h
  /usr/local/include/g2o/core/sparse_block_matrix.hpp

@@ -25,8 +25,8 @@ bool VertexPose::write(std::ostream &out) const {
 }
 
 
-
 EdgeICP::EdgeICP() {
+
 }
 
 bool EdgeICP::read(std::istream& is) {

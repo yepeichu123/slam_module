@@ -109,10 +109,15 @@ bool ICP::SovleICPByBA(std::vector<cv::Point3f>& ref_p3d, std::vector<cv::Point3
     
     if (ref_p3d.size() > 0 && cur_p3d.size() > 0 && ref_p3d.size() == cur_p3d.size()) {
         cout << "SovleICPByBA." << endl;
-        cout << "And we first need to estimate the pose by SVD." << endl;
         cv::Mat temp_R, temp_t;
-        flag = SolveICPBySVD(ref_p3d, cur_p3d, temp_R, temp_t);
-        
+        if (!R.empty() && !t.empty()) {
+            R.convertTo(temp_R, CV_64F);
+            t.convertTo(temp_t, CV_64F);
+        }
+        else {
+            temp_R = cv::Mat::eye(3, 3, CV_64F);
+            temp_t = cv::Mat::zeros(3, 1, CV_64F);
+        }
         // convert mat to eigen
         Eigen::Matrix3d Rot;
         Eigen::Vector3d trans;
@@ -136,6 +141,7 @@ bool ICP::SovleICPByBA(std::vector<cv::Point3f>& ref_p3d, std::vector<cv::Point3
         optimizer.addVertex(v_se3);
 
         int count = 1;
+        bool fixed_point = true;
         for (int i = 0; i < ref_p3d.size(); ++i) {
             Eigen::Vector3d p_to, p_from;
             ConvertPoint3fToEigen_(ref_p3d[i], p_to);
@@ -145,7 +151,12 @@ bool ICP::SovleICPByBA(std::vector<cv::Point3f>& ref_p3d, std::vector<cv::Point3
             g2o::VertexSBAPointXYZ* v_p3d = new g2o::VertexSBAPointXYZ();
             v_p3d->setId(count++);
             v_p3d->setEstimate(p_from);
-            // v_p3d->setMarginalized(true);
+            if (fixed_point) {
+                v_p3d->setFixed(fixed_point);
+            }
+            else {
+                v_p3d->setMarginalized(true);
+            }
             optimizer.addVertex(v_p3d);
 
             EdgeICP* e = new EdgeICP();
@@ -167,6 +178,22 @@ bool ICP::SovleICPByBA(std::vector<cv::Point3f>& ref_p3d, std::vector<cv::Point3
         Rot = T.rotation();
         trans = T.translation();
         ConvertPoseEigenToMat_(Rot, trans, R, t);
+
+        if (!fixed_point) {
+            vector<cv::Point3f> new_cur_p3d;
+            for (int i = 1; i < count; ++i) {
+                g2o::VertexSBAPointXYZ* point = dynamic_cast<g2o::VertexSBAPointXYZ*>(optimizer.vertices().find(i)->second);
+                Eigen::Vector3d p = point->estimate();
+                cv::Point3f p3d(p(0), p(1), p(2));
+                new_cur_p3d.push_back(p3d);
+            }
+            if (new_cur_p3d.size() > 0) {
+                cur_p3d.clear();
+                cur_p3d.insert(cur_p3d.end(), new_cur_p3d.begin(), new_cur_p3d.end());
+                cout << "After optimization, we update " << cur_p3d.size() << " points!" << endl;
+            }
+        }
+        flag = true;
     }
     
 

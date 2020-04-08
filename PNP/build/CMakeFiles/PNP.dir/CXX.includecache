@@ -45,6 +45,8 @@ g2o/solvers/dense/linear_solver_dense.h
 -
 g2o/types/sba/types_six_dof_expmap.h
 -
+g2o/core/robust_kernel_impl.h
+-
 
 /home/ypc/xiaoc/code/slam_module/PNP/src/main.cpp
 iostream
@@ -1455,6 +1457,12 @@ string
 /usr/local/include/g2o/core/robust_kernel.h
 memory
 -
+g2o_core_api.h
+/usr/local/include/g2o/core/g2o_core_api.h
+
+/usr/local/include/g2o/core/robust_kernel_impl.h
+robust_kernel.h
+/usr/local/include/g2o/core/robust_kernel.h
 g2o_core_api.h
 /usr/local/include/g2o/core/g2o_core_api.h
 

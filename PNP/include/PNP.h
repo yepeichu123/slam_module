@@ -4,6 +4,13 @@
 #include <opencv2/core/core.hpp>
 #include <Eigen/Core>
 
+
+enum SolvePnpType {
+    PNP_CV,
+    PNP_BA,
+    PNP_COMB
+};
+
 class PNP {
     public:
         PNP(const cv::Mat& K);
@@ -11,7 +18,7 @@ class PNP {
         ~PNP();
 
         bool RunPNP(std::vector<cv::Point3f>& ref_p3d, std::vector<cv::Point2f>& cur_p2d,
-            cv::Mat& R, cv::Mat& t);
+            cv::Mat& R, cv::Mat& t, const SolvePnpType& type = SolvePnpType::PNP_CV);
 
         float CheckPoseError(const std::vector<cv::Point3f>& ref_p3d, const std::vector<cv::Point2f>& cur_p2d,
             const cv::Mat& R, const cv::Mat& t);

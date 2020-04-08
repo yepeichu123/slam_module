@@ -25,7 +25,7 @@ void EdgePNP::computeError() {
     Eigen::Vector3d xyz_proj = m_K_ * T.map(m_p3d_);
     xyz_proj /= xyz_proj(2);
     _error = _measurement - xyz_proj.head<2>();
-    cout << "_error = " << _error << endl;
+    // cout << "_error = " << _error << endl;
 }
 
 void EdgePNP::linearizeOplus() {
@@ -41,37 +41,20 @@ void EdgePNP::linearizeOplus() {
     double z = xyz_trans(2);
     double z2 = z*z;
 
-    _jacobianOplusXi(0, 0) = -fx / z;
-    _jacobianOplusXi(0, 1) = 0;
-    _jacobianOplusXi(0, 2) = fx * x / z2;
-    _jacobianOplusXi(0, 3) = fx * x * y / z2;
-    _jacobianOplusXi(0, 4) = -fx - fx * x * x / z2;
-    _jacobianOplusXi(0, 5) = fx * y / z;
+    _jacobianOplusXi(0, 0) = fx * x * y / z2;
+    _jacobianOplusXi(0, 1) = -fx - fx * x * x / z2;
+    _jacobianOplusXi(0, 2) = fx * y / z;
+    _jacobianOplusXi(0, 3) = -fx / z;
+    _jacobianOplusXi(0, 4) = 0;
+    _jacobianOplusXi(0, 5) = fx * x / z2;
 
-    _jacobianOplusXi(1, 0) = 0;
-    _jacobianOplusXi(1, 1) = -fy / z;
-    _jacobianOplusXi(1, 2) = fy * y / z2;
-    _jacobianOplusXi(1, 3) = fy + fy * y * y / z2;
-    _jacobianOplusXi(1, 4) = -fy * x * y / z2;
-    _jacobianOplusXi(1, 5) = -fy * x / z;
 
-    /*
-    double z2 = -1. / (z*z);
-
-    _jacobianOplusXi(0, 0) = z2 * (z * m_K_(0, 0));
-    _jacobianOplusXi(0, 1) = 0;
-    _jacobianOplusXi(0, 2) = z2 * (-x * m_K_(0, 0));
-    _jacobianOplusXi(0, 3) = z2 * (-x * y * m_K_(0, 0));
-    _jacobianOplusXi(0, 4) = z2 * (z*z + x*x) * m_K_(0, 0);
-    _jacobianOplusXi(0, 5) = z2 * (-y * z * m_K_(0, 0));
-
-    _jacobianOplusXi(1, 0) = 0;
-    _jacobianOplusXi(1, 1) = z2 * (z * m_K_(1, 1));
-    _jacobianOplusXi(1, 2) = z2 * (-y * m_K_(1, 1));
-    _jacobianOplusXi(1, 3) = z2 * (-z*z - y*y) * m_K_(1, 1);
-    _jacobianOplusXi(1, 4) = z2 * (x * y * m_K_(1, 1));
-    _jacobianOplusXi(1, 5) = z2 * (x * z * m_K_(1, 1));
-    */
+    _jacobianOplusXi(1, 0) = fy + fy * y * y / z2;
+    _jacobianOplusXi(1, 1) = -fy * x * y / z2;
+    _jacobianOplusXi(1, 2) = -fy * x / z;
+    _jacobianOplusXi(1, 3) = 0;
+    _jacobianOplusXi(1, 4) = -fy / z;
+    _jacobianOplusXi(1, 5) = fy * y / z2;
 }
 
 
@@ -96,7 +79,7 @@ void EdgePNP2::computeError() {
     Eigen::Vector3d xyz_proj = m_K_ * T.map(p3d);
     xyz_proj /= xyz_proj(2);
     _error = _measurement - xyz_proj.head<2>();
-    cout << "_error = " << _error.transpose() << endl;
+    // cout << "_error = " << _error.transpose() << endl;
 }
 
 void EdgePNP2::linearizeOplus() {
@@ -107,8 +90,6 @@ void EdgePNP2::linearizeOplus() {
     Eigen::Vector3d xyz_trans = T.map(p3d);
     double fx = m_K_(0, 0);
     double fy = m_K_(1, 1);
-    double cx = m_K_(0, 2);
-    double cy = m_K_(1, 2);
     double x = xyz_trans(0);
     double y = xyz_trans(1);
     double z = xyz_trans(2);
@@ -124,17 +105,18 @@ void EdgePNP2::linearizeOplus() {
     J_e_pc(1, 2) = -fy * y / z2;
     _jacobianOplusXi = -J_e_pc * Rot;
 
-    _jacobianOplusXj(0, 0) = -fx / z;
-    _jacobianOplusXj(0, 1) = 0;
-    _jacobianOplusXj(0, 2) = fx * x / z2;
-    _jacobianOplusXj(0, 3) = fx * x * y / z2;
-    _jacobianOplusXj(0, 4) = -fx - fx * x * x / z2;
-    _jacobianOplusXj(0, 5) = fx * y / z;
 
-    _jacobianOplusXj(1, 0) = 0;
-    _jacobianOplusXj(1, 1) = -fy / z;
-    _jacobianOplusXj(1, 2) = fy * y / z2;
-    _jacobianOplusXj(1, 3) = fy + fy * y * y / z2;
-    _jacobianOplusXj(1, 4) = -fy * x * y / z2;
-    _jacobianOplusXj(1, 5) = -fy * x / z;
+    _jacobianOplusXj(0, 0) = fx * x * y / z2;
+    _jacobianOplusXj(0, 1) = -fx - fx * x * x / z2;
+    _jacobianOplusXj(0, 2) = fx * y / z;
+    _jacobianOplusXj(0, 3) = -fx / z;
+    _jacobianOplusXj(0, 4) = 0;
+    _jacobianOplusXj(0, 5) = fx * x / z2;
+
+    _jacobianOplusXj(1, 0) = fy + fy * y * y / z2;
+    _jacobianOplusXj(1, 1) = -fy * x * y / z2;
+    _jacobianOplusXj(1, 2) = -fy * x / z;
+    _jacobianOplusXj(1, 3) = 0;
+    _jacobianOplusXj(1, 4) = -fy / z;
+    _jacobianOplusXj(1, 5) = fy * y / z2;
 }

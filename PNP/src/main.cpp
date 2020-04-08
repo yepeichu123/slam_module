@@ -51,7 +51,8 @@ int main(int argc, char** argv) {
     // compute relative pose by pnp 
     PNP my_pnp(K);
     Mat R, t;
-    bool flag = my_pnp.RunPNP(ref_p3d, cur_p2d, R, t);
+    SolvePnpType type = SolvePnpType::PNP_COMB;
+    bool flag = my_pnp.RunPNP(ref_p3d, cur_p2d, R, t, type);
     if (flag) {
         cout << "OK, we find the relative pose by pnp. R = \n" << R << "\n t = " << t << endl;
     }
