@@ -45,7 +45,8 @@ PS： emmm... 在实现优化部分的代码时，因为对g2o不太熟悉，笔
 1. 直接线性变换（DLT）；
 2. P3P;
 3. EPNP;
-4. 光束平差法（Bundle Adjustment）。
+4. UPNP；
+5. 光束平差法（Bundle Adjustment）。
 
 #### 已知条件
 
@@ -239,7 +240,17 @@ $$P_{i}^{c} = \sum_{j=1}^{4}(\alpha_{ij}\cdot c_{j}^{c})$$
 &ensp; &ensp; 还有一点，实际上参考帧坐标系下的四个控制点只要不共面就行了，不过博文中还提供了另外一种选择控制点的方法，具体参考上述提到的两篇博文即可。
 
 
-#### 方法四：光束平差法（Ｂundle Adjustment）
+#### 方法四：UPNP
+
+&ensp; &ensp; UPNP实际上跟EPNP十分类似，唯一不同的地方在于UPNP不需要知道相机的焦距。我们在EPNP中需要用到相机内参的地方是：
+$$s_{i}p_{i}^{c} = KP_{i}^{r} \Rightarrow s_{i}\begin{bmatrix}u_{i} \\ v_{i} \\ 1 \end{bmatrix} = \begin{bmatrix}f_{x} & 0 & c_{x} \\ 0 & f_{y} & c_{y} \\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix}X_{i}^{r} \\ Y_{i}^{r} \\ Z_{i}^{r} \end{bmatrix}$$
+
+由于一般情况下，相机的焦距 $f_{x} = f_{y}$，因此可以直接记为 $f$。UPNP中通过将未知焦距 $f$ 移到待求解的方程中，于是整个问题又变成了EPNP的操作了。通过求解出当前坐标系下的控制点，进而计算出当前帧坐标下的三维坐标。于是我们可以通过ICP求解的方法计算参考帧和当前帧的相对位姿。
+
+再详细的内容可以观看我们泡泡的公开课：[【泡泡机器人公开课】第三十九课：PnP 算法简介&代码解析-柴政
+](https://www.bilibili.com/video/BV1a441177me?from=search&seid=17882366827285157247)。
+
+#### 方法五：光束平差法（Ｂundle Adjustment）
 
 &ensp; &ensp; 前面那些理论都太难了，我们来点简单的。毕竟BA的套路还是比较固定的，通过构建一个非线性最小二乘法问题，选择优化方法对目标函数进行优化，最后就可以得到我们想要的结果。
 
@@ -287,6 +298,11 @@ $$
 
 具体的笔者就不展开了，反正就那么代进去算就对了。于是我们这里就算出了位姿的雅可比矩阵。那么优化问题就很简单了，通过对目标函数中的各个残差进行一阶泰勒展开，并对展开后的残差进行一阶导数即可得到一个正规方程：$H\Delta x = b$，具体也没啥好说的，非线性优化的内容就那样推呗。具体可以参考[学习笔记之——P3P与ICP位姿估计算法及实验](https://blog.csdn.net/gwplovekimi/article/details/89844563)。OK，那么非线性优化的方法也介绍完了。
 
+#### 总结
+
+&ensp; &ensp; 在前面，我们介绍了 $5$ 种PNP的求解方法，尽管有些不够具体，但是笔者也提供了足够多的参考资料，这些参考资料都是笔者在整理笔记时筛选的精华博文，可以帮助读者们省去大量的时间。可以说，笔者这个博文已经基本上包含了大部分的PNP算法了，也算是笔者的呕心沥血之作。前后花去几天的时间，来阅读资料并整理。在此之前，笔者实现了两个简单的PNP函数，一个是基于OpenCV提供的solverPnpRansac来求解相对位姿，另外一个是笔者自己实现的Bundle Adjustment版本的PNP。详情可以查看我的github:[PNP](https://github.com/yepeichu123/slam_module/tree/master/PNP)。
+
+
 #### 参考资料
 
 1. [g2o定义边](https://blog.csdn.net/weixin_42905141/article/details/100830126)
@@ -303,3 +319,4 @@ $$
 12. X.-S. Gao, X.-R. Hou, J. Tang, and H.-F. Cheng, “Complete solution classification for the perspective-three-point problem,” IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 25, pp. 930–943, Aug 2003.
 13. [深入EPnP算法](https://blog.csdn.net/jessecw79/article/details/82945918)
 14. [PNP(pespective-n-point)算法学习笔记](https://www.jianshu.com/p/b3e9fb2ad0dc)
+15. [【泡泡机器人公开课】第三十九课：PnP 算法简介&代码解析-柴政](https://www.bilibili.com/video/BV1a441177me?from=search&seid=17882366827285157247)
