@@ -151,7 +151,7 @@ bool PNP::ComputeRelativePosePNPByBA_(std::vector<cv::Point3f>& ref_p3d, std::ve
         optimizer.addVertex(v_se3);
         
         int count = 1;
-        bool fixed_point = false;
+        bool fixed_point = true;
         // add edges
         for (int i = 0; i < ref_p3d.size(); ++i) {
             Eigen::Vector3d p3d;
